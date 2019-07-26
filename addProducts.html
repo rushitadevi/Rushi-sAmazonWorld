@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Add Products!</title>
+</head>
+
+<body>
+    <div class="container pl-5 py-4 mt-5 bg-light">
+        <div class="row">
+            <div class="cold-md-12">
+                <form onsubmit="handleSubmit()">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Product Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="txtdescription" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                            <label for="brand">Brand</label>
+                            <input type="text" class="form-control" id="txtBrand" rows="3" required></textarea>
+                        </div>
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="number" class="form-control" id="txtprice" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="Image">Upload picture</label>
+                        <input type="text" class="form-control" id="picture" required>
+                    </div>
+                    <div class="form-group">
+                            <input type="submit"  class="btn btn-primary"   value="Submit Products" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="helper.js"></script>
+    <script>
+        var id,submit;
+        window.onload =async()=>{
+            //this is for edit
+            var products=null;
+            id=new URLSearchParams(document.location.search).get("id");
+             if(id){         
+                 submit="Update Products";     
+                document.querySelector(".btn").value=submit;
+                products = await getProductsById(id);
+                console.log(event);
+                document.querySelector("#name").value=products.name;
+                document.querySelector("#txtdescription").value=products.description;
+                document.querySelector("#txtBrand").value=products.brand;
+                document.querySelector("#txtprice").value=products.price;
+                document.querySelector("#picture").value =products.imageUrl;
+            }
+        };
+
+   handleSubmit = () => {
+        event.preventDefault();
+        submitProducts();
+      };
+
+    submitProducts= async()=> {     
+        
+        //fetching all the input elements from Page
+       var products1={
+        name :document.querySelector("#name").value,
+        description :document.querySelector("#txtdescription").value,
+        brand:document.querySelector("#txtBrand").value,
+        price :document.querySelector("#txtprice").value,
+        imageUrl :document.querySelector("#picture").value,
+       
+       };
+
+       if(id!="" && submit==="Update Products" ) //checking if id is there ,it will update item
+       {
+          await   updateProductToserver(products1,id);
+       }
+       else
+       {
+         await   submitProductToserver(products1);
+       }   
+    location.href="Index.html";
+    };
+    
+    </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
